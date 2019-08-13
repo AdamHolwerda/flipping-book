@@ -1,6 +1,6 @@
 {
   "name": "@adamholwerda/flipping-book",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Book that flips pages",
   "main": "src/index.tsx",
   "peerDependencies": {
