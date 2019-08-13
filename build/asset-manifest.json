@@ -1,13 +1,13 @@
 {
-  "main.css": "/static/css/main.60c3422c.chunk.css",
-  "main.js": "/static/js/main.d68ac5ec.chunk.js",
-  "main.js.map": "/static/js/main.d68ac5ec.chunk.js.map",
-  "static/js/1.a059ed22.chunk.js": "/static/js/1.a059ed22.chunk.js",
-  "static/js/1.a059ed22.chunk.js.map": "/static/js/1.a059ed22.chunk.js.map",
-  "runtime~main.js": "/static/js/runtime~main.229c360f.js",
-  "runtime~main.js.map": "/static/js/runtime~main.229c360f.js.map",
-  "static/css/main.60c3422c.chunk.css.map": "/static/css/main.60c3422c.chunk.css.map",
-  "index.html": "/index.html",
-  "precache-manifest.57fb4c06ab4b52a5dde273a15cb9feab.js": "/precache-manifest.57fb4c06ab4b52a5dde273a15cb9feab.js",
-  "service-worker.js": "/service-worker.js"
+  "main.css": "/adamholwerda/flipping-book/static/css/main.60c3422c.chunk.css",
+  "main.js": "/adamholwerda/flipping-book/static/js/main.d68ac5ec.chunk.js",
+  "main.js.map": "/adamholwerda/flipping-book/static/js/main.d68ac5ec.chunk.js.map",
+  "static/js/1.0f2da0a0.chunk.js": "/adamholwerda/flipping-book/static/js/1.0f2da0a0.chunk.js",
+  "static/js/1.0f2da0a0.chunk.js.map": "/adamholwerda/flipping-book/static/js/1.0f2da0a0.chunk.js.map",
+  "runtime~main.js": "/adamholwerda/flipping-book/static/js/runtime~main.edccd444.js",
+  "runtime~main.js.map": "/adamholwerda/flipping-book/static/js/runtime~main.edccd444.js.map",
+  "static/css/main.60c3422c.chunk.css.map": "/adamholwerda/flipping-book/static/css/main.60c3422c.chunk.css.map",
+  "index.html": "/adamholwerda/flipping-book/index.html",
+  "precache-manifest.e70fdc4c5f94a4903a133df60e85dc56.js": "/adamholwerda/flipping-book/precache-manifest.e70fdc4c5f94a4903a133df60e85dc56.js",
+  "service-worker.js": "/adamholwerda/flipping-book/service-worker.js"
 }

@@ -1,11 +1,15 @@
 {
   "name": "@adamholwerda/flipping-book",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Book that flips pages",
   "main": "src/index.tsx",
   "peerDependencies": {
     "react": "^16.9.0"
   },
+  "homepage": "https://github.com/adamholwerda/flipping-book#readme",
+  "bugs":{"url" : "https://github.com/adamholwerda/flipping-book/issues",
+     "email" : "adamholwerda@gmail.com"
+    },
   "author": "adamholwerda <adamholwerda@gmail.com>",
   "dependencies": {
     "@types/styled-components": "^4.1.18",
