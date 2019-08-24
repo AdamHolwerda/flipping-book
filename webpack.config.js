@@ -1,41 +1,45 @@
+const path = require("path");
+
 module.exports = {
   mode: "production",
 
   // Enable sourcemaps for debugging webpack's output.
-  devtool: "source-map",
+  // devtool: "source-map",
 
   entry: {
-    flipping_book: 'src/Book/index.tsx'
+    flipping_book: path.resolve(__dirname, "build") + "/Book/"
   },
   output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: '[name].js',
-    libraryTarget: 'commonjs2', 
-},
-  resolve: {
-      // Add '.ts' and '.tsx' as resolvable extensions.
-      extensions: [".ts", ".tsx"]
+    path: path.resolve(__dirname, "dist"),
+    filename: "[name].js",
+    libraryTarget: "commonjs2"
   },
-
+  resolve: {
+    extensions: [".ts", ".tsx", ".js", ".jsx"]
+  },
   module: {
-
-      rules: [
+    rules: [
+      {
+        test: /\.css$/,
+        loader: ["style-loader", "css-loader"]
+      },
+      {
+        test: /\.ts(x?)$/,
+        exclude: /node_modules/,
+        use: [
           {
-              test: /\.ts(x?)$/,
-              exclude: /node_modules/,
-              use: [
-                  {
-                      loader: "ts-loader"
-                  }
-              ]
-          },
-          // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-          {
-              enforce: "pre",
-              test: /\.js$/,
-              loader: "source-map-loader"
+            loader: "ts-loader"
           }
-      ]
+        ]
+      }
+
+      // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+      // {
+      //  enforce: "pre",
+      //  test: /\.js$/,
+      //  loader: "source-map-loader"
+      //}
+    ]
   },
 
   // When importing a module whose path matches one of the following, just
@@ -43,7 +47,7 @@ module.exports = {
   // This is important because it allows us to avoid bundling all of our
   // dependencies, which allows browsers to cache those libraries between builds.
   externals: {
-      "react": "React",
-      "react-dom": "ReactDOM"
+    react: "React",
+    "react-dom": "ReactDOM"
   }
 };

@@ -5,7 +5,7 @@ import { BookProps, BookState } from "./types";
 import styled from "styled-components";
 
 class Book extends Component<BookProps, BookState> {
-  constructor(props:BookProps) {
+  constructor(props: BookProps) {
     super(props);
 
     const { bookSpread = 0 } = props;

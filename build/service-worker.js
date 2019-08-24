@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/adamholwerda/flipping-book/precache-manifest.e70fdc4c5f94a4903a133df60e85dc56.js"
+  "/adamholwerda/flipping-book/precache-manifest.217e9a9974632ad47d3279abe2b51966.js"
 );
 
 workbox.clientsClaim();
