@@ -1,30 +1,30 @@
 {
   "name": "@adamholwerda/flipping-book",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Book that flips pages",
-  "main": "src/Book/index.tsx",
+  "main": "src/index.js",
   "peerDependencies": {
     "react": "^16.9.0"
   },
   "homepage": "https://github.com/adamholwerda/flipping-book#readme",
-  "bugs":{
-    "url" : "https://github.com/adamholwerda/flipping-book/issues",
-     "email" : "adamholwerda@gmail.com"
-    },
+  "bugs": {
+    "url": "https://github.com/adamholwerda/flipping-book/issues",
+    "email": "adamholwerda@gmail.com"
+  },
   "author": "adamholwerda <adamholwerda@gmail.com>",
   "dependencies": {
-    "react": "16.8.4",
-    "react-dom": "16.8.4",
     "react-markdown": "4.1.0",
     "styled-components": "4.3.2",
     "typescript": "3.3.3",
-    "@types/react": "16.8.8",
-    "@types/react-dom": "16.8.2",
     "@types/styled-components": "^4.1.18",
-    "webpack": "4.19.1"
+    "webpack": "4.28.4"
   },
   "devDependencies": {
-    "react-scripts": "2.1.3"
+    "react": "16.9.0",
+    "react-dom": "16.9.0",
+    "react-scripts": "2.1.3",
+    "@types/react": "16.8.8",
+    "@types/react-dom": "16.8.2"
   },
   "scripts": {
     "start": "react-scripts start",
