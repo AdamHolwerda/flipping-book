@@ -1,6 +1,6 @@
 {
   "name": "@adamholwerda/flipping-book",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Book that flips pages",
   "main": "src/index.js",
   "peerDependencies": {
