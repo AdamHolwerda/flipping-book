@@ -5,7 +5,7 @@
     "outDir": "./build/",
     "sourceMap": false,
     "noImplicitAny": true,
-    "jsx": "preserve",
+    "jsx": "react",
     "target": "es5",
     "allowJs": true,
     "skipLibCheck": true,

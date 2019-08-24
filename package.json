@@ -2,7 +2,7 @@
   "name": "@adamholwerda/flipping-book",
   "version": "0.0.9",
   "description": "Book that flips pages",
-  "main": "static/js/runtime~main.edccd444.js",
+  "main": "dist/flipping_book.js",
   "peerDependencies": {
     "react": "^16.9.0"
   },
