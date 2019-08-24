@@ -1,2 +1,1 @@
-// ambient.d.ts
-declare module '@adamholwerda/flpping_book';
+declare module "@adamholwerda/flipping_book";
