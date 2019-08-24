@@ -1,6 +1,6 @@
 {
   "name": "@adamholwerda/flipping-book",
-  "version": "0.0.91",
+  "version": "0.0.92",
   "description": "Book that flips pages",
   "main": "dist/flipping_book.js",
   "peerDependencies": {
@@ -14,7 +14,7 @@
   "author": "adamholwerda <adamholwerda@gmail.com>",
   "dependencies": {
     "@types/react": "16.9.2",
-    "@types/react-dom": "16.9.2",
+    "@types/react-dom": "16.9.0",
     "@types/styled-components": "^4.1.18",
     "css-loader": "^3.2.0",
     "react": "16.9.0",
