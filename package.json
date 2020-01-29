@@ -3,6 +3,7 @@
   "version": "0.0.97",
   "description": "Book that flips pages",
   "main": "dist/flipping_book.js",
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "peerDependencies": {
     "react": "^16.9.0",
     "react-dom": "^16.9.0"
