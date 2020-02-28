@@ -1,6 +1,6 @@
 {
   "name": "@adamholwerda/flipping-book",
-  "version": "0.0.97",
+  "version": "0.0.98",
   "description": "Book that flips pages",
   "main": "dist/flipping_book.js",
   "publishConfig": { "registry": "https://npm.pkg.github.com/" },
