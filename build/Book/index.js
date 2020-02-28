@@ -1,3 +1,7 @@
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -11,10 +15,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
-};
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -30,6 +30,7 @@ import React, { Component } from "react";
 import ReactMarkdown from "react-markdown";
 import "./book.css";
 import styled from "styled-components";
+var StyledScrolled = styled.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n.book-insides {\n  margin-top: ", ";\n}\n"], ["\n.book-insides {\n  margin-top: ", ";\n}\n"])), function (props) { return "-" + props.scroll + "vmin"; });
 var Book = /** @class */ (function (_super) {
     __extends(Book, _super);
     function Book(props) {
@@ -83,18 +84,17 @@ var Book = /** @class */ (function (_super) {
             var forwardZIndex = flipping === "flipped" ? 2 : forwardToFlip;
             var backwardZIndex = flipping === "flipped" ? 1 : backwardToFlip;
             var pageZIndex = direction === "forward" ? forwardZIndex : backwardZIndex;
-            var StyledScrolledFront = styled.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n        .book-insides {\n          margin-top: -", "vmin;\n        }\n      "], ["\n        .book-insides {\n          margin-top: -", "vmin;\n        }\n      "])), frontPageScroll);
-            var StyledScrolledBack = styled.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n        .book-insides {\n          margin-top: -", "vmin;\n        }\n      "], ["\n        .book-insides {\n          margin-top: -", "vmin;\n        }\n      "])), backPageScroll);
             var adjacentSpreads = Math.abs(currentSpread - i);
+            var pageNode = (React.createElement("div", { key: "spread" + i, className: "page-container " + flipping, "data-spread": i, style: { zIndex: pageZIndex } },
+                React.createElement("div", { className: "front page", "data-page": frontPageNumber, onClick: this.handleAdvancePage },
+                    React.createElement(StyledScrolled, { scroll: frontPageScroll },
+                        React.createElement(ReactMarkdown, { className: "book-insides", source: bookText }))),
+                React.createElement("div", { className: "back page", "data-page": backPageNumber, onClick: this.handleBackPage },
+                    React.createElement(StyledScrolled, { scroll: backPageScroll },
+                        React.createElement(ReactMarkdown, { className: "book-insides", source: bookText })))));
             if (adjacentSpreads < 3) {
                 // helps with performance!
-                pages.push(React.createElement("div", { key: "spread" + i, className: "page-container " + flipping, "data-spread": i, style: { zIndex: pageZIndex } },
-                    React.createElement("div", { className: "front page", "data-page": frontPageNumber, onClick: this.handleAdvancePage },
-                        React.createElement(StyledScrolledFront, null,
-                            React.createElement(ReactMarkdown, { className: "book-insides", source: bookText }))),
-                    React.createElement("div", { className: "back page", "data-page": backPageNumber, onClick: this.handleBackPage },
-                        React.createElement(StyledScrolledBack, null,
-                            React.createElement(ReactMarkdown, { className: "book-insides", source: bookText })))));
+                pages = pages.concat([pageNode]);
             }
         }
         return (React.createElement("div", { className: "book-container", "data-spread": currentSpread, style: __assign({}, bookVisibleStyles) },
@@ -108,4 +108,4 @@ var Book = /** @class */ (function (_super) {
     return Book;
 }(Component));
 export default Book;
-var templateObject_1, templateObject_2;
+var templateObject_1;
