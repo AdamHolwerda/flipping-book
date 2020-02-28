@@ -31,6 +31,7 @@ import ReactMarkdown from "react-markdown";
 import "./book.css";
 import styled from "styled-components";
 var StyledScrolled = styled.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n.book-insides {\n  margin-top: ", ";\n}\n"], ["\n.book-insides {\n  margin-top: ", ";\n}\n"])), function (props) { return "-" + props.scroll + "vmin"; });
+var StyledPage = styled.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  z-index: ", ";\n"], ["\n  z-index: ", ";\n"])), function (props) { return props.zIndex; });
 var Book = /** @class */ (function (_super) {
     __extends(Book, _super);
     function Book(props) {
@@ -85,7 +86,7 @@ var Book = /** @class */ (function (_super) {
             var backwardZIndex = flipping === "flipped" ? 1 : backwardToFlip;
             var pageZIndex = direction === "forward" ? forwardZIndex : backwardZIndex;
             var adjacentSpreads = Math.abs(currentSpread - i);
-            var pageNode = (React.createElement("div", { key: "spread" + i, className: "page-container " + flipping, "data-spread": i, style: { zIndex: pageZIndex } },
+            var pageNode = (React.createElement(StyledPage, { key: "spread" + i, className: "page-container " + flipping, "data-spread": i, zIndex: pageZIndex },
                 React.createElement("div", { className: "front page", "data-page": frontPageNumber, onClick: this.handleAdvancePage },
                     React.createElement(StyledScrolled, { scroll: frontPageScroll },
                         React.createElement(ReactMarkdown, { className: "book-insides", source: bookText }))),
@@ -108,4 +109,4 @@ var Book = /** @class */ (function (_super) {
     return Book;
 }(Component));
 export default Book;
-var templateObject_1;
+var templateObject_1, templateObject_2;

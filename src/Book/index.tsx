@@ -4,6 +4,10 @@ import "./book.css";
 import { BookProps, BookState } from "./types";
 import styled from "styled-components";
 
+interface StyledPageProps{
+  zIndex : number
+}
+
 interface StyledScrolledProps{
   scroll : number
 }
@@ -12,6 +16,10 @@ const StyledScrolled = styled.div<StyledScrolledProps>`
 .book-insides {
   margin-top: ${props => `-${props.scroll}vmin`};
 }
+`;
+
+const StyledPage = styled.div<StyledPageProps>`
+  z-index: ${props => props.zIndex};
 `;
 
 class Book extends Component<BookProps, BookState> {
@@ -88,11 +96,11 @@ class Book extends Component<BookProps, BookState> {
       const adjacentSpreads = Math.abs(currentSpread - i);
 
       const pageNode =
-      (<div
+      (<StyledPage
         key={"spread" + i}
         className={"page-container " + flipping}
         data-spread={i}
-        style={{ zIndex: pageZIndex }}
+        zIndex={pageZIndex}
       >
         <div
           className="front page"
@@ -112,7 +120,7 @@ class Book extends Component<BookProps, BookState> {
             <ReactMarkdown className="book-insides" source={bookText} />
           </StyledScrolled>
         </div>
-      </div>
+      </StyledPage>
     );
 
       if (adjacentSpreads < 3) {
@@ -131,7 +139,7 @@ class Book extends Component<BookProps, BookState> {
           <div className="bottom-corner" />
           <div
             className="front-cover-outside"
-            style={{ backgroundImage: "url(" + coverImage + ")" }}
+            style={{ backgroundImage: `url(${coverImage})` }}
           />
           <div className="front-cover-inside" onClick={this.handleBackPage} />
         </div>
