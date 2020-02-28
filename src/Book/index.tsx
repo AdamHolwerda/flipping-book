@@ -1,8 +1,18 @@
-import React, { Component } from "react";
+import React, { Component, ReactElement } from "react";
 import ReactMarkdown from "react-markdown";
 import "./book.css";
 import { BookProps, BookState } from "./types";
 import styled from "styled-components";
+
+interface StyledScrolledProps{
+  scroll : number
+}
+
+const StyledScrolled = styled.div<StyledScrolledProps>`
+.book-insides {
+  margin-top: ${props => `-${props.scroll}vmin`};
+}
+`;
 
 class Book extends Component<BookProps, BookState> {
   constructor(props: BookProps) {
@@ -38,7 +48,7 @@ class Book extends Component<BookProps, BookState> {
     const { currentSpread, direction, stateBookText } = this.state;
     const { coverImage, bookText = stateBookText, spreads } = this.props;
 
-    const backCover = (
+    const backCover: ReactElement = (
       <div className="back-cover">
         <div className="back-cover-inside" />
         <div className="back-cover-outside" />
@@ -51,7 +61,7 @@ class Book extends Component<BookProps, BookState> {
 
     const howManySpreads = spreads || bookText.length / 1800;
     const spreadNumbers = Math.round(howManySpreads);
-    const pages = [];
+    let pages:ReactElement[] = [];
 
     for (let i = 0; i < spreadNumbers; i += 1) {
       const maxVmin = 54;
@@ -74,49 +84,40 @@ class Book extends Component<BookProps, BookState> {
       const pageZIndex =
         direction === "forward" ? forwardZIndex : backwardZIndex;
 
-      const StyledScrolledFront = styled.div`
-        .book-insides {
-          margin-top: -${frontPageScroll}vmin;
-        }
-      `;
-
-      const StyledScrolledBack = styled.div`
-        .book-insides {
-          margin-top: -${backPageScroll}vmin;
-        }
-      `;
 
       const adjacentSpreads = Math.abs(currentSpread - i);
 
+      const pageNode =
+      (<div
+        key={"spread" + i}
+        className={"page-container " + flipping}
+        data-spread={i}
+        style={{ zIndex: pageZIndex }}
+      >
+        <div
+          className="front page"
+          data-page={frontPageNumber}
+          onClick={this.handleAdvancePage}
+        >
+            <StyledScrolled scroll={frontPageScroll}>
+            <ReactMarkdown className="book-insides" source={bookText} />
+          </StyledScrolled>
+        </div>
+        <div
+          className="back page"
+          data-page={backPageNumber}
+          onClick={this.handleBackPage}
+        >
+          <StyledScrolled scroll={backPageScroll}>
+            <ReactMarkdown className="book-insides" source={bookText} />
+          </StyledScrolled>
+        </div>
+      </div>
+    );
+
       if (adjacentSpreads < 3) {
         // helps with performance!
-        pages.push(
-          <div
-            key={"spread" + i}
-            className={"page-container " + flipping}
-            data-spread={i}
-            style={{ zIndex: pageZIndex }}
-          >
-            <div
-              className="front page"
-              data-page={frontPageNumber}
-              onClick={this.handleAdvancePage}
-            >
-              <StyledScrolledFront>
-                <ReactMarkdown className="book-insides" source={bookText} />
-              </StyledScrolledFront>
-            </div>
-            <div
-              className="back page"
-              data-page={backPageNumber}
-              onClick={this.handleBackPage}
-            >
-              <StyledScrolledBack>
-                <ReactMarkdown className="book-insides" source={bookText} />
-              </StyledScrolledBack>
-            </div>
-          </div>
-        );
+        pages = [...pages, pageNode];
       }
     }
 
