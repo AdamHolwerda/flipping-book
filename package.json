@@ -1,5 +1,5 @@
 {
-  "name": "flipping-book",
+  "name": "@letterloom/flipping-book",
   "version": "0.1.0",
   "description": "Book that flips pages",
   "main": "dist/flipping_book.js",
