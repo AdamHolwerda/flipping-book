@@ -1,6 +1,6 @@
 {
-  "name": "@adamholwerda/flipping-book",
-  "version": "0.0.98",
+  "name": "@letterloom/flipping-book",
+  "version": "0.0.99",
   "description": "Book that flips pages",
   "main": "dist/flipping_book.js",
   "publishConfig": {
@@ -32,11 +32,8 @@
     "webpack-cli": "^3.3.7",
     "ts-loader": "^6.0.4",
     "typescript": "3.3.3",
-    "webpack": "4.28.4"
-  },
-  "devDependencies": {
-    "serve": "^11.1.0",
-    "webpack-cli": "^3.3.7"
+    "webpack": "4.28.4",
+    "serve": "^11.1.0"
   },
   "scripts": {
     "start": "serve ./build",
