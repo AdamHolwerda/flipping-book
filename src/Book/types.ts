@@ -4,7 +4,7 @@ export interface BookProps {
     coverImage?: string;
     spreads?: number;
   }
-  
+
   export interface BookState {
     currentSpread: number;
     direction: string;

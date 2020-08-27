@@ -1,1 +1,1 @@
-declare module "@adamholwerda/flipping_book";
+declare module "@letterloom/flipping_book";
