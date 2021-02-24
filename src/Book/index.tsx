@@ -43,7 +43,7 @@ class Book extends Component<BookProps, BookState> {
     });
 
     await new Promise((resolve) => {
-      setTimeout(resolve, 500);
+      setTimeout(resolve, 800);
     });
 
     this.setState({
@@ -63,7 +63,7 @@ class Book extends Component<BookProps, BookState> {
     }
 
     await new Promise((resolve) => {
-      setTimeout(resolve, 500);
+      setTimeout(resolve, 800);
     });
 
     this.setState({

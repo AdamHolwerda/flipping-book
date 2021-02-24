@@ -145,7 +145,6 @@ export const StyledBookContainer = styled.div<CurrentSpreadProps>`
     position: absolute;
     width: inherit;
     height: inherit;
-    transition: opacity 1s;
   }
 
   .back {
@@ -153,6 +152,36 @@ export const StyledBookContainer = styled.div<CurrentSpreadProps>`
     transform: rotateY(180deg);
     background: white;
     opacity: 0.35;
+  }
+
+  @keyframes hide {
+    0% {
+      opacity: 0.96;
+    }
+    49% {
+      opacity: 0.96;
+    }
+    51% {
+      opacity: 0.15;
+    }
+    100% {
+      opacity: 0.15;
+    }
+  }
+
+  @keyframes show {
+    0% {
+      opacity: 0.15;
+    }
+    49% {
+      opacity: 0.15;
+    }
+    51% {
+      opacity: 0.96;
+    }
+    100% {
+      opacity: 0.96;
+    }
   }
 
   .front {
@@ -166,10 +195,23 @@ export const StyledBookContainer = styled.div<CurrentSpreadProps>`
   .flipped .front {
     z-index: 1;
     opacity: 0.35;
+    animation: hide 400ms;
   }
+
   .flipped .back {
     z-index: 2;
     opacity: 0.96;
+    animation: show 400ms;
+  }
+
+  .flipping .front {
+    animation-delay: 400ms;
+    animation: show 400ms;
+  }
+
+  .flipping .back {
+    animation-delay: 400ms;
+    animation: hide 400ms;
   }
 
   .page-container .page.back::before {
