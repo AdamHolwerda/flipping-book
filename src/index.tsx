@@ -2,12 +2,14 @@ import * as React from "react";
 import { render } from "react-dom";
 import Book from "./Book";
 import "./styles.css";
+import text from "./story.md";
+import { StyledBookStage } from "./Book/styles";
 
 function App() {
   return (
-    <div className="book-stage">
-      <Book bookSpread={0} spreads = {20} />
-    </div>
+    <StyledBookStage>
+      <Book bookSpread={0} spreads={20} bookText={text} />
+    </StyledBookStage>
   );
 }
 

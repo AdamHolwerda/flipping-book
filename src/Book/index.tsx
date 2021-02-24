@@ -1,26 +1,7 @@
 import React, { Component, ReactElement } from "react";
 import ReactMarkdown from "react-markdown";
-import "./book.css";
 import { BookProps, BookState } from "./types";
-import styled from "styled-components";
-
-interface StyledPageProps{
-  zIndex : number
-}
-
-interface StyledScrolledProps{
-  scroll : number
-}
-
-const StyledScrolled = styled.div<StyledScrolledProps>`
-.book-insides {
-  margin-top: ${props => `-${props.scroll}vmin`};
-}
-`;
-
-const StyledPage = styled.div<StyledPageProps>`
-  z-index: ${props => props.zIndex};
-`;
+import { StyledBookContainer, StyledScrolled, StyledPage } from "./styles";
 
 class Book extends Component<BookProps, BookState> {
   constructor(props: BookProps) {
@@ -69,7 +50,7 @@ class Book extends Component<BookProps, BookState> {
 
     const howManySpreads = spreads || bookText.length / 1800;
     const spreadNumbers = Math.round(howManySpreads);
-    let pages:ReactElement[] = [];
+    let pages: ReactElement[] = [];
 
     for (let i = 0; i < spreadNumbers; i += 1) {
       const maxVmin = 54;
@@ -92,36 +73,35 @@ class Book extends Component<BookProps, BookState> {
       const pageZIndex =
         direction === "forward" ? forwardZIndex : backwardZIndex;
 
-
       const adjacentSpreads = Math.abs(currentSpread - i);
 
-      const pageNode =
-      (<StyledPage
-        key={"spread" + i}
-        className={"page-container " + flipping}
-        data-spread={i}
-        zIndex={pageZIndex}
-      >
-        <div
-          className="front page"
-          data-page={frontPageNumber}
-          onClick={this.handleAdvancePage}
+      const pageNode = (
+        <StyledPage
+          key={"spread" + i}
+          className={"page-container " + flipping}
+          data-spread={i}
+          zIndex={pageZIndex}
         >
+          <div
+            className="front page"
+            data-page={frontPageNumber}
+            onClick={this.handleAdvancePage}
+          >
             <StyledScrolled scroll={frontPageScroll}>
-            <ReactMarkdown className="book-insides" source={bookText} />
-          </StyledScrolled>
-        </div>
-        <div
-          className="back page"
-          data-page={backPageNumber}
-          onClick={this.handleBackPage}
-        >
-          <StyledScrolled scroll={backPageScroll}>
-            <ReactMarkdown className="book-insides" source={bookText} />
-          </StyledScrolled>
-        </div>
-      </StyledPage>
-    );
+              <ReactMarkdown className="book-insides" source={bookText} />
+            </StyledScrolled>
+          </div>
+          <div
+            className="back page"
+            data-page={backPageNumber}
+            onClick={this.handleBackPage}
+          >
+            <StyledScrolled scroll={backPageScroll}>
+              <ReactMarkdown className="book-insides" source={bookText} />
+            </StyledScrolled>
+          </div>
+        </StyledPage>
+      );
 
       if (adjacentSpreads < 3) {
         // helps with performance!
@@ -130,8 +110,7 @@ class Book extends Component<BookProps, BookState> {
     }
 
     return (
-      <div
-        className="book-container"
+      <StyledBookContainer
         data-spread={currentSpread}
         style={{ ...bookVisibleStyles }}
       >
@@ -145,7 +124,7 @@ class Book extends Component<BookProps, BookState> {
         </div>
         {pages}
         {backCover}
-      </div>
+      </StyledBookContainer>
     );
   }
 }
