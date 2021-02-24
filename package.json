@@ -2,7 +2,6 @@
   "name": "@letterloom/flipping-book",
   "version": "0.1.01",
   "description": "Book that flips pages",
-  "main": "dist/flipping_book.js",
   "peerDependencies": {
     "react": "^16.9.0",
     "react-dom": "^16.9.0"
@@ -14,8 +13,9 @@
   },
   "author": "adamholwerda <adamholwerda@gmail.com>",
   "dependencies": {
-    "react-markdown": "4.1.0",
-    "styled-components": "4.3.2"
+    "react": "17.0.1",
+    "react-markdown": "5.0.3",
+    "styled-components": "5.2.1"
   },
   "devDependencies": {
     "@types/react": "16.9.2",
@@ -36,11 +36,6 @@
     "build": "tsc && webpack",
     "bundle": "tsc && webpack"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
+  "browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"],
   "license": "ISC"
 }
