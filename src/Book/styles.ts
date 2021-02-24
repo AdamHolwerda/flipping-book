@@ -10,12 +10,12 @@ interface StyledScrolledProps {
 
 export const StyledScrolled = styled.div<StyledScrolledProps>`
   .book-insides {
-    margin-top: ${(props) => `-${props.scroll}vmin`};
+    margin-top: ${({ scroll }) => `-${scroll}vmin`};
   }
 `;
 
 export const StyledPage = styled.div<StyledPageProps>`
-  z-index: ${(props) => props.zIndex};
+  z-index: ${({ zIndex }) => zIndex};
 `;
 
 export const StyledBookStage = styled.div`
@@ -32,55 +32,21 @@ export const StyledBookStage = styled.div`
   }
 `;
 
-export const StyledBookContainer = styled.div`
-  width: 45vmin;
-  height: 66vmin;
-  margin: auto;
+interface CurrentSpreadProps {
+  currentSpread: number;
+}
+
+export const StyledFrontCover = styled.div<CurrentSpreadProps>`
+  z-index: ${({ currentSpread }) => (currentSpread > 0 ? 1 : 100)};
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  transition: all 1s;
-  perspective: 150vmin;
-  transform: rotateZ(3deg);
-
-  &:hover {
-    left: 45vmin;
-    transform: rotateZ(0deg);
-
-    .front-cover {
-      transform: rotateY(-180deg);
-    }
-  }
-
-  .book-insides h1 {
-    font-size: 3vmin;
-    line-height: 4.5vmin;
-  }
-
-  .book-insides p {
-    margin: 0;
-    line-height: 2.5vmin;
-    text-indent: 3vmin;
-    font-size: 1.5vmin;
-  }
-
-  .front-cover {
-    z-index: 100;
-    position: absolute;
-    width: inherit;
-    height: inherit;
-    transition: transform 1s;
-    transform-origin: left;
-    transition-delay: 200ms;
-    transform-style: preserve-3d;
-    transform: rotateY(-3deg);
-  }
-
-  .front-cover.open {
-    z-index: 1;
-  }
+  width: inherit;
+  height: inherit;
+  transition: transform 1s;
+  transform-origin: left;
+  transition-delay: 200ms;
+  transform-style: preserve-3d;
+  transform: ${({ currentSpread }) =>
+    currentSpread > 0 ? "rotateY(-180deg)" : "rotateY(-3deg)"};
 
   .front-cover-inside {
     position: absolute;
@@ -96,6 +62,41 @@ export const StyledBookContainer = styled.div`
     width: inherit;
     height: inherit;
     background-size: cover;
+  }
+`;
+
+export const StyledBookContainer = styled.div<CurrentSpreadProps>`
+  width: 45vmin;
+  height: 66vmin;
+  margin: auto;
+  position: absolute;
+  left: ${({ currentSpread }) => (currentSpread > 0 ? "45vmin" : 0)};
+  right: 0;
+  top: 0;
+  bottom: 0;
+  transition: all 1s;
+  perspective: 150vmin;
+  transform: rotateZ(3deg);
+
+  &:hover {
+    left: 45vmin;
+    transform: rotateZ(0deg);
+
+    ${StyledFrontCover} {
+      transform: rotateY(-180deg);
+    }
+  }
+
+  .book-insides h1 {
+    font-size: 3vmin;
+    line-height: 4.5vmin;
+  }
+
+  .book-insides p {
+    margin: 0;
+    line-height: 2.5vmin;
+    text-indent: 3vmin;
+    font-size: 1.5vmin;
   }
 
   .back-cover {

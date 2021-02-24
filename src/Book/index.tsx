@@ -1,12 +1,16 @@
 import React, { Component, ReactElement } from "react";
 import ReactMarkdown from "react-markdown";
 import { BookProps, BookState } from "./types";
-import { StyledBookContainer, StyledScrolled, StyledPage } from "./styles";
+import {
+  StyledBookContainer,
+  StyledScrolled,
+  StyledPage,
+  StyledFrontCover
+} from "./styles";
 
 class Book extends Component<BookProps, BookState> {
   constructor(props: BookProps) {
     super(props);
-
     const { bookSpread = 0 } = props;
 
     this.state = {
@@ -15,7 +19,7 @@ class Book extends Component<BookProps, BookState> {
       stateBookText: ""
     };
   }
-  handleAdvancePage = () => {
+  advancePage = () => {
     let { currentSpread } = this.state;
 
     this.setState({
@@ -23,7 +27,7 @@ class Book extends Component<BookProps, BookState> {
       direction: "forward"
     });
   };
-  handleBackPage = () => {
+  backPage = () => {
     let { currentSpread } = this.state;
 
     if (currentSpread > 0) {
@@ -36,17 +40,6 @@ class Book extends Component<BookProps, BookState> {
   render() {
     const { currentSpread, direction, stateBookText } = this.state;
     const { coverImage, bookText = stateBookText, spreads } = this.props;
-
-    const backCover: ReactElement = (
-      <div className="back-cover">
-        <div className="back-cover-inside" />
-        <div className="back-cover-outside" />
-      </div>
-    );
-
-    const coverVisibleStyles =
-      currentSpread > 0 ? { transform: "rotateY(-180deg)", zIndex: 1 } : {};
-    const bookVisibleStyles = currentSpread > 0 ? { left: "45vmin" } : {};
 
     const howManySpreads = spreads || bookText.length / 1800;
     const spreadNumbers = Math.round(howManySpreads);
@@ -85,7 +78,7 @@ class Book extends Component<BookProps, BookState> {
           <div
             className="front page"
             data-page={frontPageNumber}
-            onClick={this.handleAdvancePage}
+            onClick={this.advancePage}
           >
             <StyledScrolled scroll={frontPageScroll}>
               <ReactMarkdown className="book-insides" source={bookText} />
@@ -94,7 +87,7 @@ class Book extends Component<BookProps, BookState> {
           <div
             className="back page"
             data-page={backPageNumber}
-            onClick={this.handleBackPage}
+            onClick={this.backPage}
           >
             <StyledScrolled scroll={backPageScroll}>
               <ReactMarkdown className="book-insides" source={bookText} />
@@ -103,27 +96,25 @@ class Book extends Component<BookProps, BookState> {
         </StyledPage>
       );
 
-      if (adjacentSpreads < 3) {
-        // helps with performance!
-        pages = [...pages, pageNode];
-      }
+      // helps with performance!
+      if (adjacentSpreads < 3) pages = [...pages, pageNode];
     }
 
     return (
-      <StyledBookContainer
-        data-spread={currentSpread}
-        style={{ ...bookVisibleStyles }}
-      >
-        <div className="front-cover" style={{ ...coverVisibleStyles }}>
+      <StyledBookContainer currentSpread={currentSpread}>
+        <StyledFrontCover currentSpread={currentSpread}>
           <div className="bottom-corner" />
           <div
             className="front-cover-outside"
             style={{ backgroundImage: `url(${coverImage})` }}
           />
-          <div className="front-cover-inside" onClick={this.handleBackPage} />
-        </div>
+          <div className="front-cover-inside" onClick={this.backPage} />
+        </StyledFrontCover>
         {pages}
-        {backCover}
+        <div className="back-cover">
+          <div className="back-cover-inside" />
+          <div className="back-cover-outside" />
+        </div>
       </StyledBookContainer>
     );
   }
