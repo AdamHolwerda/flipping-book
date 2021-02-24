@@ -48,7 +48,8 @@ class Book extends Component<BookProps, BookState> {
     for (let i = 0; i < spreadNumbers; i += 1) {
       const maxVmin = 54;
       const nextSpread = currentSpread + 1;
-
+      const textCutoff = 1800 * nextSpread;
+      let truncatedBookText = bookText.substring(0, textCutoff);
       const frontPageNumber = i * 2 !== 0 ? i * 2 + 1 : 1;
       const backPageNumber = frontPageNumber + 1;
       const frontPageScroll = maxVmin * 2 * i + 0.1;
@@ -81,7 +82,10 @@ class Book extends Component<BookProps, BookState> {
             onClick={this.advancePage}
           >
             <StyledScrolled scroll={frontPageScroll}>
-              <ReactMarkdown className="book-insides" source={bookText} />
+              <ReactMarkdown
+                className="book-insides"
+                source={truncatedBookText}
+              />
             </StyledScrolled>
           </div>
           <div
@@ -90,7 +94,10 @@ class Book extends Component<BookProps, BookState> {
             onClick={this.backPage}
           >
             <StyledScrolled scroll={backPageScroll}>
-              <ReactMarkdown className="book-insides" source={bookText} />
+              <ReactMarkdown
+                className="book-insides"
+                source={truncatedBookText}
+              />
             </StyledScrolled>
           </div>
         </StyledPage>
