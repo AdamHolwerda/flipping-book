@@ -10,6 +10,7 @@
   "author": "adamholwerda <adamholwerda@gmail.com>",
   "dependencies": {
     "react": "17.0.1",
+    "react-dom": "17.0.1",
     "react-markdown": "5.0.3",
     "styled-components": "5.2.1"
   },
@@ -30,11 +31,6 @@
     "build": "tsc && webpack",
     "bundle": "tsc && webpack"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
+  "browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"],
   "license": "ISC"
 }
