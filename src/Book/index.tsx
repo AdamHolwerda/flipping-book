@@ -1,12 +1,25 @@
 import React, { Component, ReactElement } from "react";
 import ReactMarkdown from "react-markdown";
-import { BookProps, BookState } from "./types";
 import {
   StyledBookContainer,
   StyledScrolled,
   StyledPage,
   StyledFrontCover
 } from "./styles";
+
+export interface BookProps {
+  bookText?: string;
+  bookSpread?: number;
+  coverImage?: string;
+  spreads?: number;
+}
+
+export interface BookState {
+  currentSpread: number;
+  direction: string;
+  stateBookText: string;
+  isFlipping: boolean;
+}
 
 class Book extends Component<BookProps, BookState> {
   constructor(props: BookProps) {
@@ -16,29 +29,49 @@ class Book extends Component<BookProps, BookState> {
     this.state = {
       currentSpread: bookSpread,
       direction: "forward",
-      stateBookText: ""
+      stateBookText: "",
+      isFlipping: false
     };
   }
-  advancePage = () => {
-    let { currentSpread } = this.state;
+  advancePage = async () => {
+    let { currentSpread, isFlipping } = this.state;
+    if (isFlipping) return false;
+    this.setState({
+      direction: "forward",
+      isFlipping: true,
+      currentSpread: currentSpread += 1
+    });
+
+    await new Promise((resolve) => {
+      setTimeout(resolve, 500);
+    });
 
     this.setState({
-      currentSpread: currentSpread += 1,
-      direction: "forward"
+      isFlipping: false
     });
   };
-  backPage = () => {
-    let { currentSpread } = this.state;
+  backPage = async () => {
+    let { currentSpread, isFlipping } = this.state;
+    if (isFlipping) return false;
 
     if (currentSpread > 0) {
       this.setState({
-        currentSpread: currentSpread -= 1,
-        direction: "back"
+        direction: "back",
+        isFlipping: true,
+        currentSpread: currentSpread -= 1
       });
     }
+
+    await new Promise((resolve) => {
+      setTimeout(resolve, 500);
+    });
+
+    this.setState({
+      isFlipping: false
+    });
   };
   render() {
-    const { currentSpread, direction, stateBookText } = this.state;
+    const { currentSpread, direction, stateBookText, isFlipping } = this.state;
     const { coverImage, bookText = stateBookText, spreads } = this.props;
 
     const howManySpreads = spreads || bookText.length / 1800;
@@ -48,7 +81,8 @@ class Book extends Component<BookProps, BookState> {
     for (let i = 0; i < spreadNumbers; i += 1) {
       const maxVmin = 54;
       const nextSpread = currentSpread + 1;
-      const textCutoff = 1800 * nextSpread;
+      const textCutoff =
+        direction === "forward" ? 1800 * nextSpread : 1800 * (nextSpread + 2);
       let truncatedBookText = bookText.substring(0, textCutoff);
       const frontPageNumber = i * 2 !== 0 ? i * 2 + 1 : 1;
       const backPageNumber = frontPageNumber + 1;
@@ -56,7 +90,7 @@ class Book extends Component<BookProps, BookState> {
       const backPageScroll = frontPageScroll + maxVmin - 0.1;
 
       const flipped = nextSpread > i ? "flipped" : "to_flip";
-      const flipping = currentSpread === i ? "flipping" : flipped;
+      let flipping = currentSpread === i ? "flipping" : flipped;
 
       let forwardToFlip = flipping === "to_flip" ? 0 : 1;
       let backwardToFlip = flipping === "to_flip" ? 1 : 2;
