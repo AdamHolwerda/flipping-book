@@ -82,12 +82,10 @@ class Book extends Component<BookProps, BookState> {
       const maxVmin = 54;
       const nextSpread = currentSpread + 1;
       const textCutoff =
-        direction === "forward" ? 1800 * nextSpread : 1800 * (nextSpread + 2);
+        direction === "forward"
+          ? 1800 * (nextSpread + 1)
+          : 1800 * (nextSpread + 2);
       let truncatedBookText = bookText.substring(0, textCutoff);
-      const frontPageNumber = i * 2 !== 0 ? i * 2 + 1 : 1;
-      const backPageNumber = frontPageNumber + 1;
-      const frontPageScroll = maxVmin * 2 * i + 0.1;
-      const backPageScroll = frontPageScroll + maxVmin - 0.1;
 
       const flipped = nextSpread > i ? "flipped" : "to_flip";
       let flipping = currentSpread === i ? "flipping" : flipped;
@@ -97,6 +95,19 @@ class Book extends Component<BookProps, BookState> {
 
       let forwardZIndex = flipping === "flipped" ? 2 : forwardToFlip;
       let backwardZIndex = flipping === "flipped" ? 1 : backwardToFlip;
+
+      let frontPageNumber = i * 2 !== 0 ? i * 2 + 1 : 1;
+      frontPageNumber =
+        direction === "back" &&
+        flipping === "to_flip" &&
+        isFlipping &&
+        frontPageNumber > 2
+          ? frontPageNumber - 2
+          : frontPageNumber;
+
+      const backPageNumber = frontPageNumber + 1;
+      const frontPageScroll = maxVmin * (frontPageNumber - 1) + 0.1;
+      const backPageScroll = frontPageScroll + maxVmin - 0.1;
 
       const pageZIndex =
         direction === "forward" ? forwardZIndex : backwardZIndex;
