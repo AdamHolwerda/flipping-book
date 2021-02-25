@@ -39,17 +39,14 @@ class Book extends Component<BookProps, BookState> {
     const { flipDuration = 800 } = this.props;
     const newSpread = currentSpread + 1;
     if (isFlipping) return false;
-
     this.setState({
       direction: "forward",
       isFlipping: true,
       currentSpread: newSpread
     });
-
     await new Promise((resolve) => {
       setTimeout(resolve, flipDuration);
     });
-
     this.setState({
       isFlipping: false
     });
@@ -59,7 +56,6 @@ class Book extends Component<BookProps, BookState> {
     const { flipDuration = 800 } = this.props;
     const newSpread = currentSpread - 1;
     if (isFlipping) return false;
-
     if (currentSpread > 0) {
       this.setState({
         direction: "back",
@@ -67,14 +63,15 @@ class Book extends Component<BookProps, BookState> {
         currentSpread: newSpread
       });
     }
-
     await new Promise((resolve) => {
       setTimeout(resolve, flipDuration);
     });
-
     this.setState({
       isFlipping: false
     });
+  };
+  guesstimateSpreads = (characters: number) => {
+    return characters / 1800;
   };
   render() {
     const { currentSpread, direction, stateBookText, isFlipping } = this.state;
@@ -84,19 +81,13 @@ class Book extends Component<BookProps, BookState> {
       spreads,
       flipDuration = 800
     } = this.props;
-
-    const howManySpreads = spreads || bookText.length / 1800;
+    const howManySpreads = spreads || this.guesstimateSpreads(bookText.length);
     const spreadCount = Math.round(howManySpreads);
     const flipBackToCover = direction === "back" && isFlipping;
-
     let pages: ReactElement[] = [];
     let adjacentSpreads = 0;
-
     for (let i = 0; i < spreadCount; i += 1) {
       adjacentSpreads = Math.abs(currentSpread - i);
-      if (adjacentSpreads > 2) {
-        break;
-      }
       const maxVmin = 54;
       const nextSpread = currentSpread + 1;
       const textCutoff =
@@ -104,16 +95,12 @@ class Book extends Component<BookProps, BookState> {
           ? 1800 * (nextSpread + 1)
           : 1800 * (nextSpread + 2);
       let truncatedBookText = bookText.substring(0, textCutoff);
-
       const flipped = nextSpread > i ? "flipped" : "to_flip";
       let flipping = currentSpread === i ? "flipping" : flipped;
-
       let forwardToFlip = flipping === "to_flip" ? 0 : 1;
       let backwardToFlip = flipping === "to_flip" ? 1 : 2;
-
       let forwardZIndex = flipping === "flipped" ? 2 : forwardToFlip;
       let backwardZIndex = flipping === "flipped" ? 1 : backwardToFlip;
-
       let frontPageNumber = i * 2 !== 0 ? i * 2 + 1 : 1;
       frontPageNumber =
         direction === "back" &&
@@ -122,17 +109,11 @@ class Book extends Component<BookProps, BookState> {
         frontPageNumber > 2
           ? frontPageNumber - 2
           : frontPageNumber;
-
       let backPageNumber = frontPageNumber + 1;
-
-      console.log(backPageNumber);
-
       const frontPageScroll = maxVmin * (frontPageNumber - 1) + 0.1;
       const backPageScroll = maxVmin * (backPageNumber - 1) - 0.1;
-
       const pageZIndex =
         direction === "forward" ? forwardZIndex : backwardZIndex;
-
       const pageNode = (
         <StyledPage
           key={"spread" + i}
@@ -167,7 +148,7 @@ class Book extends Component<BookProps, BookState> {
           </div>
         </StyledPage>
       );
-      pages = [...pages, pageNode];
+      if (adjacentSpreads < 3) pages = [...pages, pageNode];
     }
 
     return (

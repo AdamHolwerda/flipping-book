@@ -22,7 +22,8 @@ export const StyledPage = styled.div<StyledPageProps>`
   width: inherit;
   height: inherit;
   top: 0;
-  transition: transform 8000ms;
+  transition: ${({ flipDuration }) =>
+    flipDuration && `transform ${flipDuration}ms`};
   transform-origin: left;
   cursor: pointer;
   overflow: hidden;
@@ -36,65 +37,52 @@ export const StyledPage = styled.div<StyledPageProps>`
     transform: rotateY(-2deg);
   }
 
-  .page.back::before {
-    box-sizing: border-box;
-    content: "";
+  &.flipped .front {
     z-index: 1;
-    width: 45vmin;
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: rotateY(0deg);
-    background: white;
-    height: 5.8vmin;
+    opacity: 0.35;
+    animation: ${({ flipDuration }) =>
+      flipDuration && `hide ${flipDuration / 2}ms`};
   }
 
-  .page.front::before {
-    box-sizing: border-box;
-    content: "";
-    z-index: 1;
-    width: 45vmin;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 5.8vmin;
-    background: white;
-    transform: rotateY(0deg);
-    background: linear-gradient(to right, #fafafa, white);
+  &.flipped .back {
+    z-index: 2;
+    opacity: 0.96;
+    animation: ${({ flipDuration }) =>
+      flipDuration && `show ${flipDuration / 2}ms`};
   }
 
-  .page.front::after {
-    z-index: 1;
-    box-sizing: border-box;
-    content: attr(data-page);
-    width: 45vmin;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 6vmin;
-    font-size: 1.5vmin;
-    padding-top: 1vmin;
-    text-align: right;
-    background: white;
-    padding-right: 5.8vmin;
-    transform: rotateY(0deg);
-    background: linear-gradient(to right, #fafafa, white);
+  &.flipping .front {
+    animation: ${({ flipDuration }) =>
+      flipDuration && `show ${flipDuration / 2}ms`};
   }
 
-  .page.back::after {
-    z-index: 1;
-    box-sizing: border-box;
-    content: attr(data-page);
-    width: 45vmin;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background: white;
-    font-size: 1.5vmin;
-    height: 5.8vmin;
-    text-align: left;
-    padding-left: 6vmin;
-    padding-top: 1vmin;
+  &.flipping .back {
+    animation: ${({ flipDuration }) =>
+      flipDuration && `hide ${flipDuration / 2}ms`};
+  }
+
+  @keyframes hide {
+    0% {
+      opacity: 0.96;
+    }
+    65% {
+      opacity: 0.96;
+    }
+    100% {
+      opacity: 0.05;
+    }
+  }
+
+  @keyframes show {
+    0% {
+      opacity: 0.05;
+    }
+    45% {
+      opacity: 0.05;
+    }
+    100% {
+      opacity: 0.96;
+    }
   }
 `;
 
@@ -115,7 +103,7 @@ export const StyledBookStage = styled.div`
 interface CurrentSpreadProps {
   currentSpread: number;
   flipBackToCover: boolean;
-  flipDuration: number;
+  flipDuration?: number;
 }
 
 export const StyledFrontCover = styled.div<CurrentSpreadProps>`
@@ -218,30 +206,6 @@ export const StyledBookContainer = styled.div<CurrentSpreadProps>`
     opacity: 0.35;
   }
 
-  @keyframes hide {
-    0% {
-      opacity: 0.96;
-    }
-    65% {
-      opacity: 0.96;
-    }
-    100% {
-      opacity: 0.05;
-    }
-  }
-
-  @keyframes show {
-    0% {
-      opacity: 0.05;
-    }
-    45% {
-      opacity: 0.05;
-    }
-    100% {
-      opacity: 0.96;
-    }
-  }
-
   .front {
     z-index: 2;
     transform: rotateY(0deg);
@@ -250,23 +214,64 @@ export const StyledBookContainer = styled.div<CurrentSpreadProps>`
     opacity: 0.96;
   }
 
-  .flipped .front {
+  .page.back::before {
+    box-sizing: border-box;
+    content: "";
     z-index: 1;
-    opacity: 0.35;
-    animation: hide 4000ms;
+    width: 45vmin;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotateY(0deg);
+    background: white;
+    height: 5.8vmin;
   }
 
-  .flipped .back {
-    z-index: 2;
-    opacity: 0.96;
-    animation: show 4000ms;
+  .page.front::before {
+    box-sizing: border-box;
+    content: "";
+    z-index: 1;
+    width: 45vmin;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 5.8vmin;
+    background: white;
+    transform: rotateY(0deg);
+    background: linear-gradient(to right, #fafafa, white);
   }
 
-  .flipping .front {
-    animation: show 4000ms;
+  .page.front::after {
+    z-index: 1;
+    box-sizing: border-box;
+    content: attr(data-page);
+    width: 45vmin;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 6vmin;
+    font-size: 1.5vmin;
+    padding-top: 1vmin;
+    text-align: right;
+    background: white;
+    padding-right: 5.8vmin;
+    transform: rotateY(0deg);
+    background: linear-gradient(to right, #fafafa, white);
   }
 
-  .flipping .back {
-    animation: hide 4000ms;
+  .page.back::after {
+    z-index: 1;
+    box-sizing: border-box;
+    content: attr(data-page);
+    width: 45vmin;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: white;
+    font-size: 1.5vmin;
+    height: 5.8vmin;
+    text-align: left;
+    padding-left: 6vmin;
+    padding-top: 1vmin;
   }
 `;
