@@ -77,8 +77,11 @@ export const StyledPage = styled.div<StyledPageProps>`
     0% {
       opacity: 0.05;
     }
-    45% {
+    30% {
       opacity: 0.05;
+    }
+    45% {
+      opacity: 0.96;
     }
     100% {
       opacity: 0.96;
