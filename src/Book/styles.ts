@@ -103,13 +103,17 @@ export const StyledBookStage = styled.div`
   }
 `;
 
-interface CurrentSpreadProps {
+interface FrontCoverProps {
   currentSpread: number;
-  flipBackToCover: boolean;
   flipDuration?: number;
+  flipBackToCover: boolean;
 }
 
-export const StyledFrontCover = styled.div<CurrentSpreadProps>`
+interface BookContainerProps{
+  currentSpread: number;
+}
+
+export const StyledFrontCover = styled.div<FrontCoverProps>`
   z-index: ${({ currentSpread, flipBackToCover }) =>
     flipBackToCover ? 1 : currentSpread > 0 ? 1 : 100};
   position: absolute;
@@ -140,7 +144,7 @@ export const StyledFrontCover = styled.div<CurrentSpreadProps>`
   }
 `;
 
-export const StyledBookContainer = styled.div<CurrentSpreadProps>`
+export const StyledBookContainer = styled.div<BookContainerProps>`
   width: 45vmin;
   height: 66vmin;
   margin: auto;
