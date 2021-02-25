@@ -8,7 +8,7 @@ import { StyledBookStage } from "./Book/styles";
 function App() {
   return (
     <StyledBookStage>
-      <Book bookSpread={0} spreads={20} bookText={text} />
+      <Book bookSpread={0} spreads={20} bookText={text} flipDuration={8000} />
     </StyledBookStage>
   );
 }

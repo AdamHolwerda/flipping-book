@@ -12,6 +12,7 @@ export interface BookProps {
   bookSpread?: number;
   coverImage?: string;
   spreads?: number;
+  flipDuration?: number;
 }
 
 export interface BookState {
@@ -35,15 +36,18 @@ class Book extends Component<BookProps, BookState> {
   }
   advancePage = async () => {
     let { currentSpread, isFlipping } = this.state;
+    const { flipDuration = 800 } = this.props;
+    const newSpread = currentSpread + 1;
     if (isFlipping) return false;
+
     this.setState({
       direction: "forward",
       isFlipping: true,
-      currentSpread: currentSpread += 1
+      currentSpread: newSpread
     });
 
     await new Promise((resolve) => {
-      setTimeout(resolve, 800);
+      setTimeout(resolve, flipDuration);
     });
 
     this.setState({
@@ -51,19 +55,21 @@ class Book extends Component<BookProps, BookState> {
     });
   };
   backPage = async () => {
-    let { currentSpread, isFlipping } = this.state;
+    const { currentSpread, isFlipping } = this.state;
+    const { flipDuration = 800 } = this.props;
+    const newSpread = currentSpread - 1;
     if (isFlipping) return false;
 
     if (currentSpread > 0) {
       this.setState({
         direction: "back",
         isFlipping: true,
-        currentSpread: currentSpread -= 1
+        currentSpread: newSpread
       });
     }
 
     await new Promise((resolve) => {
-      setTimeout(resolve, 800);
+      setTimeout(resolve, flipDuration);
     });
 
     this.setState({
@@ -72,13 +78,25 @@ class Book extends Component<BookProps, BookState> {
   };
   render() {
     const { currentSpread, direction, stateBookText, isFlipping } = this.state;
-    const { coverImage, bookText = stateBookText, spreads } = this.props;
+    const {
+      coverImage,
+      bookText = stateBookText,
+      spreads,
+      flipDuration = 800
+    } = this.props;
 
     const howManySpreads = spreads || bookText.length / 1800;
-    const spreadNumbers = Math.round(howManySpreads);
-    let pages: ReactElement[] = [];
+    const spreadCount = Math.round(howManySpreads);
+    const flipBackToCover = direction === "back" && isFlipping;
 
-    for (let i = 0; i < spreadNumbers; i += 1) {
+    let pages: ReactElement[] = [];
+    let adjacentSpreads = 0;
+
+    for (let i = 0; i < spreadCount; i += 1) {
+      adjacentSpreads = Math.abs(currentSpread - i);
+      if (adjacentSpreads > 2) {
+        break;
+      }
       const maxVmin = 54;
       const nextSpread = currentSpread + 1;
       const textCutoff =
@@ -105,21 +123,23 @@ class Book extends Component<BookProps, BookState> {
           ? frontPageNumber - 2
           : frontPageNumber;
 
-      const backPageNumber = frontPageNumber + 1;
+      let backPageNumber = frontPageNumber + 1;
+
+      console.log(backPageNumber);
+
       const frontPageScroll = maxVmin * (frontPageNumber - 1) + 0.1;
-      const backPageScroll = frontPageScroll + maxVmin - 0.1;
+      const backPageScroll = maxVmin * (backPageNumber - 1) - 0.1;
 
       const pageZIndex =
         direction === "forward" ? forwardZIndex : backwardZIndex;
 
-      const adjacentSpreads = Math.abs(currentSpread - i);
-
       const pageNode = (
         <StyledPage
           key={"spread" + i}
-          className={"page-container " + flipping}
+          className={flipping}
           data-spread={i}
           zIndex={pageZIndex}
+          flipDuration={flipDuration}
         >
           <div
             className="front page"
@@ -147,14 +167,16 @@ class Book extends Component<BookProps, BookState> {
           </div>
         </StyledPage>
       );
-
-      // helps with performance!
-      if (adjacentSpreads < 3) pages = [...pages, pageNode];
+      pages = [...pages, pageNode];
     }
 
     return (
       <StyledBookContainer currentSpread={currentSpread}>
-        <StyledFrontCover currentSpread={currentSpread}>
+        <StyledFrontCover
+          currentSpread={currentSpread}
+          flipBackToCover={flipBackToCover}
+          flipDuration={flipDuration}
+        >
           <div className="bottom-corner" />
           <div
             className="front-cover-outside"

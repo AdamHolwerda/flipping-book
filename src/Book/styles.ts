@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 interface StyledPageProps {
   zIndex: number;
+  flipDuration: number;
 }
 
 interface StyledScrolledProps {
@@ -16,6 +17,85 @@ export const StyledScrolled = styled.div<StyledScrolledProps>`
 
 export const StyledPage = styled.div<StyledPageProps>`
   z-index: ${({ zIndex }) => zIndex};
+
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  top: 0;
+  transition: transform 8000ms;
+  transform-origin: left;
+  cursor: pointer;
+  overflow: hidden;
+  transform: rotateY(-1deg);
+
+  &.flipped {
+    transform: rotateY(-179deg);
+  }
+
+  &.flipping {
+    transform: rotateY(-2deg);
+  }
+
+  .page.back::before {
+    box-sizing: border-box;
+    content: "";
+    z-index: 1;
+    width: 45vmin;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotateY(0deg);
+    background: white;
+    height: 5.8vmin;
+  }
+
+  .page.front::before {
+    box-sizing: border-box;
+    content: "";
+    z-index: 1;
+    width: 45vmin;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 5.8vmin;
+    background: white;
+    transform: rotateY(0deg);
+    background: linear-gradient(to right, #fafafa, white);
+  }
+
+  .page.front::after {
+    z-index: 1;
+    box-sizing: border-box;
+    content: attr(data-page);
+    width: 45vmin;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 6vmin;
+    font-size: 1.5vmin;
+    padding-top: 1vmin;
+    text-align: right;
+    background: white;
+    padding-right: 5.8vmin;
+    transform: rotateY(0deg);
+    background: linear-gradient(to right, #fafafa, white);
+  }
+
+  .page.back::after {
+    z-index: 1;
+    box-sizing: border-box;
+    content: attr(data-page);
+    width: 45vmin;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: white;
+    font-size: 1.5vmin;
+    height: 5.8vmin;
+    text-align: left;
+    padding-left: 6vmin;
+    padding-top: 1vmin;
+  }
 `;
 
 export const StyledBookStage = styled.div`
@@ -34,14 +114,18 @@ export const StyledBookStage = styled.div`
 
 interface CurrentSpreadProps {
   currentSpread: number;
+  flipBackToCover: boolean;
+  flipDuration: number;
 }
 
 export const StyledFrontCover = styled.div<CurrentSpreadProps>`
-  z-index: ${({ currentSpread }) => (currentSpread > 0 ? 1 : 100)};
+  z-index: ${({ currentSpread, flipBackToCover }) =>
+    flipBackToCover ? 1 : currentSpread > 0 ? 1 : 100};
   position: absolute;
   width: inherit;
   height: inherit;
-  transition: transform 1s;
+  transition: ${({ flipDuration }) =>
+    flipDuration && `transform ${flipDuration}ms`};
   transform-origin: left;
   transition-delay: 200ms;
   transform-style: preserve-3d;
@@ -119,26 +203,6 @@ export const StyledBookContainer = styled.div<CurrentSpreadProps>`
     height: inherit;
   }
 
-  .page-container {
-    position: absolute;
-    width: inherit;
-    height: inherit;
-    top: 0;
-    transition: transform 800ms;
-    transform-origin: left;
-    cursor: pointer;
-    overflow: hidden;
-    transform: rotateY(-1deg);
-  }
-
-  .page-container.flipped {
-    transform: rotateY(-179deg);
-  }
-
-  .page-container.flipping {
-    transform: rotateY(-2deg);
-  }
-
   .page {
     bottom: 0;
     padding: 6vmin;
@@ -158,26 +222,20 @@ export const StyledBookContainer = styled.div<CurrentSpreadProps>`
     0% {
       opacity: 0.96;
     }
-    49% {
+    65% {
       opacity: 0.96;
     }
-    51% {
-      opacity: 0.15;
-    }
     100% {
-      opacity: 0.15;
+      opacity: 0.05;
     }
   }
 
   @keyframes show {
     0% {
-      opacity: 0.15;
+      opacity: 0.05;
     }
-    49% {
-      opacity: 0.15;
-    }
-    51% {
-      opacity: 0.96;
+    45% {
+      opacity: 0.05;
     }
     100% {
       opacity: 0.96;
@@ -195,83 +253,20 @@ export const StyledBookContainer = styled.div<CurrentSpreadProps>`
   .flipped .front {
     z-index: 1;
     opacity: 0.35;
-    animation: hide 400ms;
+    animation: hide 4000ms;
   }
 
   .flipped .back {
     z-index: 2;
     opacity: 0.96;
-    animation: show 400ms;
+    animation: show 4000ms;
   }
 
   .flipping .front {
-    animation-delay: 400ms;
-    animation: show 400ms;
+    animation: show 4000ms;
   }
 
   .flipping .back {
-    animation-delay: 400ms;
-    animation: hide 400ms;
-  }
-
-  .page-container .page.back::before {
-    box-sizing: border-box;
-    content: "";
-    z-index: 1;
-    width: 45vmin;
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: rotateY(0deg);
-    background: white;
-    height: 5.8vmin;
-  }
-
-  .page-container .page.front::before {
-    box-sizing: border-box;
-    content: "";
-    z-index: 1;
-    width: 45vmin;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 5.8vmin;
-    background: white;
-    transform: rotateY(0deg);
-    background: linear-gradient(to right, #fafafa, white);
-  }
-
-  .page-container .page.front::after {
-    z-index: 1;
-    box-sizing: border-box;
-    content: attr(data-page);
-    width: 45vmin;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 6vmin;
-    font-size: 1.5vmin;
-    padding-top: 1vmin;
-    text-align: right;
-    background: white;
-    padding-right: 5.8vmin;
-    transform: rotateY(0deg);
-    background: linear-gradient(to right, #fafafa, white);
-  }
-
-  .page-container .page.back::after {
-    z-index: 1;
-    box-sizing: border-box;
-    content: attr(data-page);
-    width: 45vmin;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background: white;
-    font-size: 1.5vmin;
-    height: 5.8vmin;
-    text-align: left;
-    padding-left: 6vmin;
-    padding-top: 1vmin;
+    animation: hide 4000ms;
   }
 `;
