@@ -17,7 +17,6 @@ export const StyledScrolled = styled.div<StyledScrolledProps>`
 
 export const StyledPage = styled.div<StyledPageProps>`
   z-index: ${({ zIndex }) => zIndex};
-
   position: absolute;
   width: inherit;
   height: inherit;
